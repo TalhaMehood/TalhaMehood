@@ -1,0 +1,303 @@
+#include <iostream>
+#include <stdio.h>
+#include <queue>
+using namespace std;
+class Node
+{
+public:
+    int Data;
+    Node *Right;
+    Node *Left;
+
+    Node()
+    {
+
+        Right = NULL;
+        Left = NULL;
+    }
+    Node(int userInput)
+    {
+        Data = userInput;
+    }
+};
+class BinarySearchTree
+{
+public:
+    Node *head;
+    void addNewNode(int userInput)
+    {
+        Node *newNode = new Node(userInput);
+        Node *pointer = head;
+        if (head == NULL)
+        {
+            head = newNode;
+        }
+        else
+        {
+            valueAddingFunction(newNode, pointer);
+        }
+    }
+
+    void valueAddingFunction(Node *newNode, Node *pointer)
+    {
+        if (pointer == NULL)
+        {
+            pointer = newNode;
+        }
+        else
+        {
+            if (pointer->Data > newNode->Data)
+            {
+                if (pointer->Left == NULL)
+                {
+                    pointer->Left = newNode;
+                }
+
+                else
+                {
+                    pointer = pointer->Left;
+                    valueAddingFunction(newNode, pointer);
+                }
+            }
+            else if (pointer->Data < newNode->Data)
+            {
+                if (pointer->Right == NULL)
+                {
+                    pointer->Right = newNode;
+                }
+                else
+                {
+                    pointer = pointer->Right;
+                    valueAddingFunction(newNode, pointer);
+                }
+            }
+        }
+    }
+
+    void inOrderDisplay(Node *pointer)
+    {
+        if (pointer == NULL)
+        {
+            return;
+        }
+        else
+        {
+            inOrderDisplay(pointer->Left);
+            cout << pointer->Data << endl;
+            inOrderDisplay(pointer->Right);
+        }
+    }
+    void preOrderDislpay(Node *pointer)
+    {
+        if (pointer == NULL)
+        {
+            return;
+        }
+        else
+        {
+            cout << pointer->Data << endl;
+            preOrderDislpay(pointer->Left);
+            preOrderDislpay(pointer->Right);
+        }
+    }
+    void postOrderDisplay(Node *pointer)
+    {
+        if (pointer == NULL)
+        {
+            return;
+        }
+        else
+        {
+            postOrderDisplay(pointer->Left);
+            postOrderDisplay(pointer->Right);
+            cout << pointer->Data << endl;
+        }
+    }
+
+    int minimumNumber(Node *head)
+    {
+        Node *pointer = head;
+        if (pointer->Left == NULL)
+        {
+            return pointer->Data;
+        }
+        else
+        {
+            minimumNumber(pointer->Left);
+        }
+    }
+    int maximumNumber(Node *head)
+    {
+        Node *pointer = head;
+
+        if (pointer->Right == NULL)
+        {
+            return pointer->Data;
+        }
+        else
+        {
+            maximumNumber(pointer->Right);
+        }
+    }
+    void bfsDislpay(Node *pointer)
+    {
+        if (pointer == NULL)
+            return;
+        else
+        {
+            queue<Node *> que;
+            que.push(pointer);
+            while (que.empty() == false)
+            {
+                pointer = que.front();
+                cout << pointer->Data << endl;
+
+                if (pointer->Left != NULL)
+                {
+                    que.push(pointer->Left);
+                }
+                if (pointer->Right != NULL)
+                {
+                    que.push(pointer->Right);
+                }
+                que.pop();
+            }
+        }
+    }
+    void deleteNode(Node *head, int delNumber)
+    {
+        // int searchNo = delNumber;
+        // head = searchNumberFunction(head, searchNo);
+        // cout << "\nHEAD OF THE NUMBER :"<< head->Data <<endl;
+
+    }
+    int searchNumberFunction(Node *head, int searchNo)
+    {
+        cout << "head->Data" << head->Data << endl;
+
+        if (head == NULL)
+        { cout << "Not found " << endl;
+          return false; }
+        else if (searchNo == head->Data)
+        { cout << "\tFound\n";
+          return head->Data; }
+
+        else if (searchNo > head->Data)
+        {
+            if (head == NULL)
+            { cout << "Not found " << endl;
+              return false;}
+            else
+                searchNumberFunction(head->Right, searchNo);
+        }
+        else if (searchNo < head->Data)
+        {
+            if (head == NULL)
+            {cout << "Not found " << endl;
+             return false;}
+            
+            else
+            searchNumberFunction(head->Left, searchNo);
+        }
+    }
+};
+int main()
+{
+    BinarySearchTree *tree = new BinarySearchTree();
+    Node *head = new Node();
+    int userInput, totalValues, navMenu, loopVar = 1;
+    while (loopVar == 1)
+    {
+
+        cout << "1. Insertion\n2. In-order Display \n3. Find Minimum\n4. Find Maximum \n5. Pre-Order Display \n6. Post-order Display\n7. BFS-Display\n8. Find Number\n9. Delete Number\n";
+        cin >> navMenu;
+        if (navMenu == 1)
+        {
+            cout << "\n Enter No of Values you want to enter : ";
+            cin >> totalValues;
+            for (int i = 0; i < totalValues; i++)
+            {
+                cout << "\n Data " << i + 1 << " : ";
+                cin >> userInput;
+                tree->addNewNode(userInput);
+            }
+        }
+        else if (navMenu == 2)
+        {
+            if (tree->head == NULL)
+            {
+                cout << "\n BST is empty " << endl;
+            }
+            else
+                tree->inOrderDisplay(tree->head);
+        }
+        else if (navMenu == 3)
+        {
+            cout << "\nMinimum Number : " << tree->minimumNumber(tree->head) << endl;
+        }
+        else if (navMenu == 4)
+        {
+            cout << "\nMaximum  Number : " << tree->maximumNumber(tree->head) << endl;
+        }
+        else if (navMenu == 5)
+        {
+            if (tree->head == NULL)
+            {
+                cout << "\n BST is empty ";
+            }
+            else
+                tree->preOrderDislpay(tree->head);
+        }
+        else if (navMenu == 6)
+        {
+            if (tree->head == NULL)
+            {
+                cout << "\n BST is empty " << endl;
+            }
+            else
+                tree->postOrderDisplay(tree->head);
+        }
+        else if (navMenu == 7)
+        {
+            if (tree->head == NULL)
+            {
+                cout << "\n BST is empty " << endl;
+            }
+            else
+                tree->bfsDislpay(tree->head);
+        }
+        else if (navMenu == 8)
+        {
+            if (tree->head == NULL)
+            {
+                cout << "\n BST is empty " << endl;
+            }
+            else
+            {
+                int searchNo;
+                cout << "\nEnter the number: ";
+                cin >> searchNo;
+                tree->searchNumberFunction(tree->head, searchNo);
+            }
+        }
+        else if (navMenu == 9)
+        {
+            if (tree->head == NULL)
+            {
+                cout << "\n BST is empty " << endl;
+            }
+            else
+            {
+                int delNumber;
+                cout << "\nEnter the number :";
+                cin >> delNumber;
+                tree->deleteNode(tree->head, delNumber);
+            }
+        }
+        else
+        {
+            cout << "\nEnter Accurate Command : ";
+        }
+    }
+    return 0;
+}
