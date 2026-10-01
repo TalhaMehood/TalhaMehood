@@ -2,7 +2,7 @@
 
 <p align="center">
   <b>Backend software engineer</b> building scalable platforms with NestJS, Prisma and PostgreSQL<br/>
-  📍 Lahore, Pakistan &nbsp;·&nbsp; 🏢 <b>Softaims</b>
+  📍 Lahore, Pakistan &nbsp;·&nbsp; 🏢 <b>Kalpa</b>
 </p>
 
 <p align="center">
